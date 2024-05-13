@@ -1,0 +1,47 @@
+<span class="count-down-timer">
+  <if(state.s !== null)>
+    ${state.d}:${state.h}:${state.m}:${state.s}
+  </if>
+</span>
+class {
+  onCreate() {
+    this.state = {
+      d: null,
+      h: null,
+      m: null,
+      s: null,
+    };
+  }
+  onRender() {
+    this.timer = null;
+    this.countDown();
+  }
+  countDown() {
+    const count = () => {
+      const cur = new Date().getTime();
+      const target = this.input.target
+        ? new Date(this.input.target).getTime()
+        : 0;
+      const leftTime = target - cur;
+      if (leftTime <= 0) {
+        clearInterval(this.timer);
+        return;
+      }
+      this.state.d = this.zeroFill(Math.floor(leftTime / (3600 * 24 * 1000)));
+      this.state.h = this.zeroFill(Math.floor((leftTime / (3600 * 1000)) % 24));
+      this.state.m = this.zeroFill(Math.floor((leftTime / (60 * 1000)) % 60));
+      this.state.s = this.zeroFill(Math.floor((leftTime / 1000) % 60));
+    };
+    count();
+    this.timer = setInterval(count, 1000);
+  }
+  zeroFill(num) {
+    if (num >= 10) return num;
+    return `0${num}`;
+  }
+}
+style {
+  .count-down-timer {
+    color: #46c0e8;
+  }
+}

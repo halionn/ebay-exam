@@ -1,29 +1,87 @@
-<div.container>
+<div class="container">
   <header>
-    <img.logo src="./logo.svg" alt="Marko"/>
+    <div class="count-down-timer-wrapper">
+      <count-down-timer target="2024-05-30"/>
+    </div>
   </header>
   <main>
-    <p>Edit <code>./src/routes/_index/+page.marko</code> and save to reload.</p>
-    <a href="https://markojs.com/docs/getting-started">
-      Learn Marko
-    </a>
+    <aside>
+      <ul>
+        <for|{ title, subtitle }| of=state.list>
+          <li key=title>
+            <h4>${title}</h4>
+            <p>${subtitle}</p>
+          </li>
+        </for>
+      </ul>
+    </aside>
+    <section/>
   </main>
 </div>
-<mouse-mask/>
-
+class {
+  onCreate() {
+    this.state = {
+      list: [
+        { title: "title1", subtitle: "subtitle 1 hello marko" },
+        { title: "title2", subtitle: "subtitle 2 hello marko" },
+        { title: "title3", subtitle: "subtitle 3 hello marko" },
+      ],
+    };
+  }
+}
 style {
   .container {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(1em, 2vw, 2em); 
-    padding: 1em;
-    box-sizing: border-box;
-    height:100%;
-    width:100%;
+    height: calc(100vh - 4px);
+    padding: 2px;
   }
-  img.logo {
-    width:12em;
+  header {
+    flex-grow: 2;
+    background-color: #0d1940;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    border-radius: 6px;
+  }
+  main {
+    flex-grow: 3;
+    display: flex;
+  }
+  aside {
+    flex-grow: 1;
+    margin-right: 20px;
+    background-color: #dcdcdc;
+    border-radius: 6px;
+  }
+  aside li {
+    list-style-type: none;
+  }
+  section {
+    flex-grow: 1;
+    background-color: #0d1940;
+    border-radius: 6px;
+  }
+  @media (max-width: 750px) {
+    header {
+      flex-grow: 1;
+    }
+    main {
+      flex-grow: 4;
+      flex-direction: column;
+    }
+    aside {
+      flex-grow: 1;
+      margin-right: 0;
+    }
+    section {
+      flex-grow: 2;
+    }
+  }
+
+  .count-down-timer-wrapper {
+    width: fit-content;
+    margin: 20px;
   }
 }
